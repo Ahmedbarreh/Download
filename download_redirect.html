@@ -5,40 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Download and Redirect</title>
   <script type="text/javascript">
-    function trackClickAndRedirect(event) {
-      // Prevent the default behavior of the button (directly opening the link)
-   
-      // The file URL to download
+    async function downloadFileAndRedirect() {
       const fileURL = "https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1";
-      
-      // The redirect URL after 3 seconds
       const redirectURL = "https://shorturl.at/SU97O";
 
-      // Create an invisible link element to trigger the download
-      const link = document.createElement("a");
-      link.href = fileURL;
-      link.download = "Skool-review-guide.pdf";  // Optional: specify filename
-      link.style.display = "none";  // Make the link invisible
-      document.body.appendChild(link);
+      // Fetch the file from the Dropbox URL (this is the correct file URL)
+      const response = await fetch(fileURL);
 
-      // Trigger the download by simulating a click
-      link.click();
+      if (response.ok) {
+        // Create a Blob from the fetched file
+        const blob = await response.blob();
 
-      // Remove the link element after triggering the download
-      document.body.removeChild(link);
+        // Create a temporary link element to download the file
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);  // Create an object URL for the Blob
+        link.download = 'Skool-review-guide.pdf'; // The name of the file to download
 
-      // After 3 seconds, redirect the user to the specified URL
-      setTimeout(function() {
-        window.location.href = redirectURL;
-      }, 3000);  // 3-second delay before redirecting
+        // Append the link to the document and simulate a click
+        document.body.appendChild(link);
+        link.click();
+        
+        // Remove the link after clicking
+        document.body.removeChild(link);
+
+        // Wait 3 seconds and then redirect the user
+        setTimeout(function() {
+          window.location.href = redirectURL;
+        }, 3000);  // 3 seconds delay before redirecting
+      } else {
+        console.error("File download failed");
+      }
     }
   </script>
 </head>
 <body>
-  <!-- Button with file URL in href, but the click is tracked by JavaScript -->
-  <a href="https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1" 
-     onclick="trackClickAndRedirect(event)">
-    <button>Download and Redirect</button>
-  </a>
+  <!-- Button to trigger the file download and redirect -->
+  <button onclick="downloadFileAndRedirect()">Download and Redirect</button>
 </body>
 </html>
