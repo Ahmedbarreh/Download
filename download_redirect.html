@@ -1,25 +1,28 @@
- <script type="text/javascript">
+<script type="text/javascript">
     function downloadAndRedirect() {
-      // The file to download
+      // The file URL to download
       const fileURL = "https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1";
-
+      
       // The redirect URL
       const redirectURL = "https://shorturl.at/SU97O";
 
-      // Trigger the file download
+      // Create a hidden link element to trigger the download
       const a = document.createElement("a");
       a.href = fileURL;
-      a.download = "";  // Suggests download behavior
+      a.download = "Skool-review-guide.pdf"; // Optional: you can specify the filename here
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
 
-      // Redirect to the new URL
-      window.location.href = redirectURL;
+      // Redirect after the download has been triggered
+      setTimeout(function() {
+        window.location.href = redirectURL;
+      }, 500); // Redirect after a short delay (500 ms)
     }
   </script>
 </head>
 <body>
+ downloading
   <!-- No visible content -->
 </body>
 </html>
