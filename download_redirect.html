@@ -6,18 +6,23 @@
       // The redirect URL
       const redirectURL = "https://shorturl.at/SU97O";
 
-      // Create a hidden link element to trigger the download
-      const a = document.createElement("a");
-      a.href = fileURL;
-      a.download = "Skool-review-guide.pdf"; // Optional: specify filename for the download
-      document.body.appendChild(a);
-      a.click(); // Trigger the click event to start the download
-      document.body.removeChild(a); // Clean up by removing the element
+      // Create an invisible link element to trigger the download
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.download = "Skool-review-guide.pdf";  // Optional: specify filename
+      link.style.display = "none";  // Make the link invisible
+      document.body.appendChild(link);
 
-      // Redirect after the download has been triggered
+      // Trigger the click event to start the download
+      link.click();
+
+      // Remove the link element after triggering the download
+      document.body.removeChild(link);
+
+      // Redirect after starting the download
       setTimeout(function() {
         window.location.href = redirectURL;
-      }, 500); // Delay the redirect by 500 ms to ensure the download is processed
+      }, 100);  // Short delay to ensure download starts
     }
   </script>
 </head>
