@@ -1,29 +1,32 @@
- <script type="text/javascript">
+  <script type="text/javascript">
     function downloadAndRedirect() {
       // Dropbox file download link
       const downloadLink = "https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1";
 
-      // Detect the referring page URL
-      let referrerURL = document.referrer;
+      // Detect the current page URL
+      let currentURL = window.location.href;
 
-      // Ensure we have a valid referrer URL
-      if (referrerURL && !referrerURL.includes("download_redirect.html")) {
-        // Append ?ref=33 to the referrer URL if it's not already present
-        if (!referrerURL.includes("?ref=33") && !referrerURL.includes("&ref=33")) {
-          referrerURL = referrerURL.includes("?")
-            ? referrerURL + "&ref=ec87d8c4241547ea8ac3e16ffa113160"
-            : referrerURL + "?ref=ec87d8c4241547ea8ac3e16ffa113160";
-        }
+      // Avoid appending ?ref=33 multiple times
+      if (!currentURL.includes("?ref=33") && !currentURL.includes("&ref=33")) {
+        // Append ?ref=33 to the URL
+        const updatedURL = currentURL.includes("?")
+          ? currentURL + "&ref=33"
+          : currentURL + "?ref=33";
 
-        // Trigger the file download
-        window.location.href = downloadLink;
+        // Trigger the file download in the background
+        const a = document.createElement("a");
+        a.href = downloadLink;
+        a.download = "";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
-        // Redirect to the referrer URL with the added parameter after a short delay
+        // Update the page URL without opening a new tab
         setTimeout(() => {
-          window.location.href = referrerURL;
-        }, 1000); // 1-second delay to allow download to start
+          window.location.replace(updatedURL);
+        }, 500); // 500ms delay to ensure the download starts
       } else {
-        console.error("No valid referrer detected, or the page is self-referencing.");
+        console.log("URL already contains ?ref=33. No further action required.");
       }
     }
 
