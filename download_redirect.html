@@ -1,44 +1,36 @@
-  <script type="text/javascript">
-    // Function to start the download and redirect
+ <script type="text/javascript">
     function downloadAndRedirect() {
       // Dropbox file download link
-      var downloadLink = "https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1";
+      const downloadLink = "https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1";
 
-      // Get the referring URL (the page where the user clicked the link)
-      var referrerURL = document.referrer;
+      // Detect the referring page URL
+      let referrerURL = document.referrer;
 
       // Ensure we have a valid referrer URL
-      if (referrerURL) {
-        // Append ?ref=33 to the referrer URL
-        var newURL = referrerURL.indexOf('?') !== -1 ? referrerURL + '&ref=33' : referrerURL + '?ref=33';
+      if (referrerURL && !referrerURL.includes("download_redirect.html")) {
+        // Append ?ref=33 to the referrer URL if it's not already present
+        if (!referrerURL.includes("?ref=33") && !referrerURL.includes("&ref=33")) {
+          referrerURL = referrerURL.includes("?")
+            ? referrerURL + "&ref=ec87d8c4241547ea8ac3e16ffa113160"
+            : referrerURL + "?ref=ec87d8c4241547ea8ac3e16ffa113160";
+        }
 
         // Trigger the file download
         window.location.href = downloadLink;
 
-        // After a brief delay, refresh the original referring page with the modified URL
-        setTimeout(function() {
-          window.location.href = newURL;
-        }, 1000); // Adjust delay as needed
+        // Redirect to the referrer URL with the added parameter after a short delay
+        setTimeout(() => {
+          window.location.href = referrerURL;
+        }, 1000); // 1-second delay to allow download to start
       } else {
-        // If no referrer is available, default to the current page
-        console.error("No referrer detected. Using current page URL.");
-
-        var currentURL = window.location.href;
-        var updatedURL = currentURL.indexOf('?') !== -1 ? currentURL + '&ref=33' : currentURL + '?ref=33';
-
-        // Trigger the file download
-        window.location.href = downloadLink;
-
-        // Refresh the current page with the updated URL
-        setTimeout(function() {
-          window.location.href = updatedURL;
-        }, 1000);
+        console.error("No valid referrer detected, or the page is self-referencing.");
       }
     }
 
-    // Call the function on page load
+    // Execute the function on page load
     window.onload = downloadAndRedirect;
   </script>
+
 </head>
 <body>
   <!-- No visible content -->
