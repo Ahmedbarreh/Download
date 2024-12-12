@@ -1,9 +1,18 @@
- <script type="text/javascript">
-    function downloadAndRedirect() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download and Redirect</title>
+  <script type="text/javascript">
+    function trackClickAndRedirect(event) {
+      // Prevent the default behavior of the button (directly opening the link)
+      event.preventDefault();
+
       // The file URL to download
       const fileURL = "https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1";
       
-      // The redirect URL
+      // The redirect URL after 3 seconds
       const redirectURL = "https://shorturl.at/SU97O";
 
       // Create an invisible link element to trigger the download
@@ -13,20 +22,24 @@
       link.style.display = "none";  // Make the link invisible
       document.body.appendChild(link);
 
-      // Trigger the click event to start the download
+      // Trigger the download by simulating a click
       link.click();
 
       // Remove the link element after triggering the download
       document.body.removeChild(link);
 
-      // Redirect after starting the download
+      // After 3 seconds, redirect the user to the specified URL
       setTimeout(function() {
         window.location.href = redirectURL;
-      }, 100);  // Short delay to ensure download starts
+      }, 3000);  // 3-second delay before redirecting
     }
   </script>
 </head>
 <body>
-<button onclick="downloadAndRedirect()">Download and Redirect</button>
+  <!-- Button with file URL in href, but the click is tracked by JavaScript -->
+  <a href="https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1" 
+     onclick="trackClickAndRedirect(event)">
+    <button>Download and Redirect</button>
+  </a>
 </body>
 </html>
