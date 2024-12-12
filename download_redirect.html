@@ -1,39 +1,23 @@
-  <script type="text/javascript">
+ <script type="text/javascript">
     function downloadAndRedirect() {
-      // Dropbox file download link
-      const downloadLink = "https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1";
+      // The file to download
+      const fileURL = "https://www.dropbox.com/scl/fi/fs3x3cpto030soqaa64fc/Skool-review-guide.pdf?rlkey=fplmzslsvntze4dh0ihnybsp0&st=y3pqeo1q&dl=1";
 
-      // Detect the current page URL
-      let currentURL = window.location.href;
+      // The redirect URL
+      const redirectURL = "https://shorturl.at/SU97O";
 
-      // Avoid appending ?ref=33 multiple times
-      if (!currentURL.includes("?ref=33") && !currentURL.includes("&ref=33")) {
-        // Append ?ref=33 to the URL
-        const updatedURL = currentURL.includes("?")
-          ? currentURL + "&ref=33"
-          : currentURL + "?ref=33";
+      // Trigger the file download
+      const a = document.createElement("a");
+      a.href = fileURL;
+      a.download = "";  // Suggests download behavior
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
 
-        // Trigger the file download in the background
-        const a = document.createElement("a");
-        a.href = downloadLink;
-        a.download = "";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        // Update the page URL without opening a new tab
-        setTimeout(() => {
-          window.location.replace(updatedURL);
-        }, 500); // 500ms delay to ensure the download starts
-      } else {
-        console.log("URL already contains ?ref=33. No further action required.");
-      }
+      // Redirect to the new URL
+      window.location.href = redirectURL;
     }
-
-    // Execute the function on page load
-    window.onload = downloadAndRedirect;
   </script>
-
 </head>
 <body>
   <!-- No visible content -->
